@@ -1,15 +1,13 @@
 #!/usr/bin/python3
 """
-n number of locked boxes in front of you. Each box is numbered sequentially 
-from 0 to n - 1 and each box may contain keys to the other boxes.
+n number of locked boxes in front of you. Each box is numbered sequentially from 0 to n - 1 and each box may contain keys to the other boxes.
 a method that determines if all the boxes can be opened.
 """
 
-"""
 def canUnlockAll(boxes):
 
     if (type(boxes) is not list):
-        return False    # box not in the this will return fales 
+        return False    # box not in the this will return fales
 
     if (len(boxes) == 0):
         return False    # box length equal to null return 0
@@ -23,7 +21,7 @@ def canUnlockAll(boxes):
         return True
     else:
         return False
-    """
+
 def canUnlockAll(boxes):
     """checks if all boxes are reachable."""
     if (not isinstance(boxes, list)):
