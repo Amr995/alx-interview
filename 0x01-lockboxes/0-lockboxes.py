@@ -1,52 +1,85 @@
 #!/usr/bin/python3
-"""Implementing the lockbox algorithm"""
-from typing import List, MutableMapping
+"""
+n number of locked boxes in front of you. Each box is numbered sequentially 
+from 0 to n - 1 and each box may contain keys to the other boxes.
+a method that determines if all the boxes can be opened.
+"""
 
+"""
+def canUnlockAll(boxes):
 
-def canUnlockAll(boxes: List[List[int]]) -> bool:
-    """
-    Checks if all boxes can be unlocked.
-    The function checks each box (list), and assigns a
-    value of `True` to each key (number) found in it.
+    if (type(boxes) is not list):
+        return False    # box not in the this will return fales 
 
-    Each key can unlock another box, so if at the end of the iteration
-    a box is not found to be in the dictionary, then the function returns
-    False.
+    if (len(boxes) == 0):
+        return False    # box length equal to null return 0
 
-    Args:
-      boxes(list) - list of lists
-
-    Returns:
-        if each box (list) in the can be opened, the function
-        returns True, otherwise False.
-
-    """
-    box_dict: MutableMapping[int, int] = {}
-    box_len: int = len(boxes)
-    i: int = 0
-
-    if (len(boxes) == 0 or len(boxes) == 1):
+    keys = [0]
+    for i in keys:      # boxs determined all will opend
+        for j in boxes[i]:
+            if j not in keys and j != i and j < len(boxes) and j != 0:
+                keys.append(j)
+    if len(keys) == len(boxes):
         return True
+    else:
+        return False
+    """
+def canUnlockAll(boxes):
+    """checks if all boxes are reachable."""
+    if (not isinstance(boxes, list)):
+        return False
 
-    # set the first box to True; it's already open
-    box_dict[i] = True
+    seen = [False for _ in range(len(boxes))]
+    seen[0] = True
 
-    while i < box_len:
-        # check if the key to the box is set to True
-        if box_dict.get(i) is True:
-            # set each key in the box to True
-            for key in boxes[i]:
-                box_dict[key] = True
-                if key < box_len and len(boxes[key]) > 0:
-                    for k in boxes[key]:
-                        box_dict[k] = True
+    # useDFS(boxes, seen, 0)
+    useBFS(boxes, seen)
 
-        i += 1
+    # the `seen` array tracks all the visited nodes. we can then see which
+    # nodes were unvisited by inspecting for False values. However, for this
+    # task we only need to know if any node was unreached, which is easier.
+    return all(seen)
 
-    # check for all the available keys of the boxes
-    for num in range(0, box_len):
-        if box_dict.get(num) and box_dict.get(num) is True:
+def useBFS(boxes, seen):
+    """uses iteration to visit nodes breadth-first
+        and populate the seen array as each new node is visited.
+    """
+    for i, box in enumerate(boxes):
+        if (isinstance(box, list) is not True):
             continue
-        else:
-            return False
-    return True
+
+        for key in box:
+            if (isinstance(key, int) is not True):
+                continue
+
+            # guard against out-of-bounds array access
+            if (key >= len(boxes)):
+                continue
+
+            if (i == key):
+                continue
+
+            seen[key] = True
+
+def useDFS(boxes, seen, currentBoxIdx):
+    """uses recursion to visit nodes depth-first
+        and populate the seen array as each new node is visited.
+    """
+    currentBox = boxes[currentBoxIdx]
+
+    if (isinstance(currentBox, list) is not True):
+        return
+
+    for key in currentBox:
+        if (isinstance(key, int) is not True):
+            continue
+
+        # guard against out-of-bounds array access
+        if (key >= len(boxes)):
+            continue
+
+        if (seen[key]):
+            continue
+
+        seen[key] = True
+        useDFS(boxes, seen, key)
