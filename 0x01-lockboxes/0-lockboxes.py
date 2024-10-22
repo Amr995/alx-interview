@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 """
-n number of locked boxes in front of you. Each box is numbered sequentially from 0 to n - 1 and each box may contain keys to the other boxes.
+n number of locked boxes in front of you. Each box is numbered sequentially
+from 0 to n - 1 and each box may contain keys to the other boxes.
 a method that determines if all the boxes can be opened.
 """
 
@@ -23,7 +24,9 @@ def canUnlockAll(boxes):
         return False
 
 def canUnlockAll(boxes):
-    """checks if all boxes are reachable."""
+"""
+checks if all boxes are reachable.
+"""
     if (not isinstance(boxes, list)):
         return False
 
@@ -60,9 +63,7 @@ def useBFS(boxes, seen):
             seen[key] = True
 
 def useDFS(boxes, seen, currentBoxIdx):
-    """uses recursion to visit nodes depth-first
-        and populate the seen array as each new node is visited.
-    """
+"""uses recursion to visit nodes depth-first and populate the seen array as each new node is visited."""
     currentBox = boxes[currentBoxIdx]
 
     if (isinstance(currentBox, list) is not True):
